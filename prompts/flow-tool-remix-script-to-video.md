@@ -329,6 +329,44 @@ Khi không đọc được Excel:
 File .xlsx của tôi không đọc được. Hãy hiện lỗi cụ thể, hỗ trợ cả .xlsx/.xls/.csv, và cho tôi tự chọn cột STT, Cảnh, Thoại nếu không nhận ra tiêu đề.
 ```
 
+Khi mọi câu thoại bị gán cho @NARRATOR, tên người nói nằm lẫn trong lời thoại, cột cảnh hiện "UNTITLED SCENE":
+
+````
+SỬA LỖI ĐỌC THOẠI (lỗi nghiêm trọng). Hiện tại khi nạp Excel, mọi dòng bị gán @NARRATOR và tên người nói nằm lẫn trong lời thoại, vd: @NARRATOR: "Ms. Rose: Tonight, one girl will become our Halloween Queen!". Narrator sẽ đọc to cả chữ "Ms. Rose", sai kịch bản. Cột "Bối cảnh & hành động" hiện "UNTITLED SCENE" và "..." dù Excel có mô tả cảnh. Thời lượng cũng bị tính dư (vd dòng 001 ra 10s, đúng ra khoảng 7s).
+
+NGUYÊN NHÂN CẦN SỬA: không được chỉ nhận tên người nói khi tên đó trùng một nhân vật ĐÃ TẢI ẢNH. Lúc nạp Excel chưa có thẻ nhân vật nào, nên mọi dòng rơi về NARRATOR. Tên có dấu chấm và dấu cách như "Ms. Rose" cũng phải nhận được.
+
+1. TÁCH NGƯỜI NÓI (chạy ngay khi nạp file, không phụ thuộc ảnh):
+- Chuẩn hóa ô Thoại: Unicode NFC, đổi "\r\n" thành "\n", đổi khoảng trắng không ngắt (U+00A0) thành dấu cách, đổi dấu hai chấm toàn khổ "：" thành ":". Tách ô thành từng dòng, bỏ dòng trống.
+- Mỗi dòng khớp mẫu: đầu dòng là TÊN (1–3 từ viết hoa chữ cái đầu, được có dấu chấm, dấu nháy, gạch nối, vd "Ms. Rose", "Mr. Lee", "Oliver"), tùy chọn "(ghi chú)", rồi dấu ":" ĐẦU TIÊN, rồi lời thoại. Regex JavaScript gợi ý (cờ u, nhận cả tên có dấu như "Bà Lan"): /^\s*(\p{Lu}[\p{L}\p{N}'.\-]*(?:\s+\p{Lu}[\p{L}\p{N}'.\-]*){0,2})\s*(?:\(([^)]*)\))?\s*:\s*(.+)$/u
+- Phần sau dấu ":" đầu tiên là lời thoại, giữ NGUYÊN VĂN (chỉ bỏ khoảng trắng đầu/cuối). Dấu ":" về sau thuộc lời thoại (vd "Mom: Remember: Be kind." → người nói Mom, thoại "Remember: Be kind.").
+- Ghi chú "(ngoài khung hình)" → người nói không xuất hiện trên hình, chỉ nghe giọng.
+- Danh sách nhân vật = danh sách "Nhân vật:" của kịch bản (nếu có) + thẻ đã tạo + MỌI tên người nói tìm thấy trong Excel. Tên mới thì tự tạo thẻ nhân vật trống, gắn nhãn "Chưa có ảnh".
+- Tên tìm được nhưng không có trong danh sách "Nhân vật:" của kịch bản → tô vàng "Người nói lạ: X?" để người dùng xác nhận (phòng trường hợp câu thoại không có tên mà bắt đầu bằng "Remember:").
+- Dòng không có tên người nói → tô vàng "Chưa rõ người nói", người dùng chọn. KHÔNG tự gán NARRATOR. Chỉ dùng NARRATOR khi Excel ghi đúng "Narrator:" hoặc người dùng tự chọn.
+- Ô Thoại trống → cảnh không thoại, không có người nói.
+
+2. HIỂN THỊ: mỗi câu một dòng dạng @ELLA: "Ivy, I love the stars on your hat!". Tên người nói KHÔNG được nằm trong dấu ngoặc kép. Ô có 2 câu thì hiện 2 dòng.
+
+3. PROMPT VIDEO: mỗi câu ghi @{Tên} says: "{lời thoại}" (người nói ngoài khung hình: @{Tên} is heard off-screen saying: "{lời thoại}"). Kiểm tra thoại 100% so khớp trên lời thoại ĐÃ TÁCH, và báo lỗi nếu bên trong dấu ngoặc kép còn tiền tố "Tên:".
+
+4. CỘT CẢNH: dòng đầu ô Cảnh dạng "[Hồi n – Tên hồi] Cảnh NNN – Tiêu đề [TAG]…" → tách ra Hồi, Tiêu đề, Tag; các dòng còn lại là mô tả. Ô Cảnh không có dòng đầu kiểu này → tiêu đề "Cảnh {STT}", toàn bộ ô là mô tả. Cột "Bối cảnh & hành động" hiện tiêu đề + mô tả tiếng Việt đọc từ Excel; prompt tiếng Anh do Gemini viết thì hiện ở phần mở rộng. Không hiện "UNTITLED SCENE" khi Excel có dữ liệu.
+
+5. THỜI LƯỢNG: tính trên lời thoại ĐÃ TÁCH (không tính tên người nói): số từ ÷ 1,7 + 0,5 giây mỗi lần ngắt câu + 1,5 giây đệm, tối thiểu 4 giây; cảnh không thoại mặc định 6 giây. Nếu Omni chỉ nhận một số mức cố định thì làm tròn LÊN mức gần nhất trong hằng số SUPPORTED_DURATIONS (mặc định [4, 6, 8, 10]). Rê chuột vào thời lượng thì hiện cách tính.
+
+6. NÚT "TỰ KIỂM TRA ĐỌC THOẠI": chạy các ca sau, hiện ĐẠT/LỖI từng ca:
+- "Ms. Rose: Tonight, one girl will become our Halloween Queen!" → người nói Ms. Rose (@MsRose); thoại "Tonight, one girl will become our Halloween Queen!"
+- "Ivy: But... I made something special too." → Ivy; "But... I made something special too."
+- "Mom: Remember: Be kind. Tell the truth. Help each other." → Mom; "Remember: Be kind. Tell the truth. Help each other."
+- "Ms. Rose (ngoài khung hình): Ivy, you are next!" → Ms. Rose, ngoài khung hình; "Ivy, you are next!"
+- "Ruby: What?\nMaya: Huh?" → 2 câu: Ruby "What?", Maya "Huh?"
+- Ô trống → không có thoại, không có người nói.
+- Ô Cảnh "[Hồi 1 – HAI CÔ BÉ, MỘT CHIẾC VƯƠNG MIỆN] Cảnh 001 – The Halloween Crown [HOOK]\nHội trường trường học được trang trí…" → Hồi 1, tiêu đề "The Halloween Crown", tag HOOK, mô tả "Hội trường trường học được trang trí…"
+- Thời lượng: dòng 001 = 7s (8s nếu làm tròn theo SUPPORTED_DURATIONS); dòng 004 = 6s; dòng 005 (không thoại) = 6s.
+
+Sau khi sửa, nạp lại file Excel và đọc lại toàn bộ 66 dòng theo quy tắc mới.
+````
+
 ## Mẫu file Excel
 
 | STT | Cảnh | Thoại |
