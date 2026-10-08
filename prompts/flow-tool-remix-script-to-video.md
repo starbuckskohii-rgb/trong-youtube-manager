@@ -5,6 +5,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 1. Dán **Prompt chính (Phần 1)**, chờ tool dựng xong.
 2. Dán **Phần 2: Preset phong cách "Slow English 3D"** ở tin nhắn tiếp theo. Phần 2 ghi đè một số mặc định của Phần 1 (style, tốc độ nói, trường JSON).
 3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
+4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella).
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
 
@@ -173,6 +174,86 @@ Thêm chế độ "NHẬP KỊCH BẢN THÔ" đứng trước Bước 1. Tool bi
 === CHỐT ===
 - Nút "Chốt kịch bản": xuất Excel (sheet Kich ban: STT | Cảnh | Thoại; kèm các sheet Ghi chu, Nhan vat, Boi canh, Hook) và nạp thẳng vào Bước 1.
 - Từ lúc chốt, QUY TẮC TỐI THƯỢNG về lời thoại áp dụng: thoại bị khóa 100%.
+````
+
+## Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc
+
+Mẫu kịch bản đầy đủ: `samples/ella-halloween-moon-moth.txt`. Bản đã chuyển sang Excel: `samples/ella-halloween-moon-moth.xlsx`.
+
+````
+Nâng cấp tool thêm 2 phần: (A) thẻ nhân vật dùng ảnh tham chiếu do người dùng tải lên, (B) nhập kịch bản theo mẫu "Kịch bản có cấu trúc". Giữ nguyên mọi quy tắc về lời thoại.
+
+=== A. THẺ NHÂN VẬT & ẢNH THAM CHIẾU CỦA NGƯỜI DÙNG ===
+1. Mỗi nhân vật là một thẻ. Thẻ được tạo tự động từ danh sách "Nhân vật:" trong kịch bản (tên + mô tả), hoặc thêm tay.
+2. Trong mỗi thẻ, người dùng tự tải ảnh của mình lên (kéo thả hoặc chọn file, PNG/JPG/WebP, nhiều ảnh):
+   • Ảnh nhận diện (bắt buộc ít nhất 1): chính diện; khuyến nghị thêm góc 3/4 và toàn thân, nền trơn.
+   • Ảnh theo trang phục (tùy chọn): mỗi trang phục một ô ảnh riêng (vd "Ella – Moon Fairy", "Ella – Moon Moth").
+   • Thay, xóa, sắp xếp ảnh bất kỳ lúc nào. Đổi ảnh thì Character Bible được đánh dấu "cần cập nhật".
+3. Character Bible = Gemini xem ẢNH của người dùng (ngoại hình) + đọc MÔ TẢ trong kịch bản (tính cách → cách diễn xuất, vd "vui tính" → nhanh nhẹn, biểu cảm phóng đại). Ngoại hình luôn theo ảnh, không bịa chi tiết trái với ảnh. Người dùng sửa và khóa được.
+4. Nút "Chuyển về style" là TÙY CHỌN: chỉ dùng khi ảnh chưa đúng phong cách; ảnh gốc luôn được giữ lại.
+5. Thư viện "Đạo cụ": tải ảnh đạo cụ quan trọng (vd cúp mặt trăng, áo choàng bạc). Cảnh nào nhắc tới đạo cụ thì tự gắn ảnh đạo cụ đó.
+6. Khi gọi Omni, gắn ảnh tham chiếu theo thứ tự ưu tiên: người nói → nhân vật khác trong khung → ảnh trang phục đúng cảnh → ảnh bối cảnh → đạo cụ; tối đa MAX_REFS_PER_CLIP (hằng số, mặc định 5). Cảnh có hơn 3 nhân vật: chỉ gắn ảnh người nói + tối đa 2 người ở tiền cảnh, những người còn lại đứng ở hậu cảnh mờ.
+7. Tag trong prompt dùng mã không dấu cách: "Ms. Rose" → @MsRose. Giao diện vẫn hiện tên thật.
+
+=== B. NHẬP KỊCH BẢN THEO MẪU "KỊCH BẢN CÓ CẤU TRÚC" ===
+Thêm tab "Kịch bản có cấu trúc" ở màn hình nhập: dán văn bản hoặc tải .txt / .docx (đọc phần chữ). Mẫu (rút gọn):
+
+ELLA AND THE HALLOWEEN MOON MOTH
+The Halloween Ball – A Family Story
+Nhân vật:
+* Ella: Cô bé yêu thích thời trang, sáng tạo và giàu cảm xúc.
+* Ms. Rose: Giáo viên tổ chức đêm hội Halloween.
+HỒI 1 – CHIẾC VÁY ÁNH TRĂNG
+00:00–01:44 | Chọn váy và chuẩn bị Halloween
+Cảnh 001 – Halloween Surprise [HÀI HƯỚC]
+Hành lang trường học trang trí bí ngô và dơi giấy. Oliver bất ngờ nhảy ra sau chiếc bí ngô lớn, đeo mặt nạ ma ngộ nghĩnh.
+Oliver: Boo! Happy Halloween, Ella!
+Cảnh 024 – The Terrible Tear [KHÔNG THOẠI]
+Ella bước tiếp. Áo choàng bị giữ lại đột ngột và rách thành một đường dài. Tiếng vải xé vang lên, Ella dừng lại sững sờ.
+Cảnh 050 – The Halloween Lesson
+Cả gia đình đứng trước khu trang trí bí ngô. Ella cầm cúp, Oliver đứng bên cạnh trong bộ đồ bí ngô ngộ nghĩnh.
+Mom: Remember: Be kind. Ask for help. Try a new idea.
+Oliver: Next year, I will be a glowing pumpkin!
+Cả gia đình bật cười. Máy quay lùi dần, kết thúc bằng ánh đèn Halloween lung linh.
+THE END
+TỪ VỰNG TIẾNG ANH CUỐI TẬP
+Costume – Trang phục hóa trang.
+Bài học: Do not hurt others because you are jealous. When things go wrong, stay calm, ask for help, and use your creativity.
+
+QUY TẮC ĐỌC (viết bằng code, không để AI đoán):
+1. Dòng 1 = tên tập, dòng 2 = phụ đề.
+2. Sau "Nhân vật:": mỗi dòng "* Tên: mô tả" tạo một thẻ nhân vật. Tên có thể có dấu chấm và dấu cách ("Ms. Rose").
+3. "HỒI n – Tên hồi" mở một hồi. Dòng ngay sau, dạng "mm:ss–mm:ss | tóm tắt", là mốc thời lượng mục tiêu của hồi.
+4. "Cảnh NNN – Tiêu đề [TAG]" mở một cảnh. Chấp nhận gạch "-", "–", "—". Có thể có 0, 1 hoặc nhiều tag.
+5. Trong cảnh: dòng bắt đầu bằng "Tên nhân vật:" (tên có trong danh sách Nhân vật, so khớp tên dài nhất trước) là LỜI THOẠI. Chỉ tách ở dấu ":" ĐẦU TIÊN sau tên, phần còn lại giữ nguyên văn (vd "Mom: Remember: Be kind." → thoại là "Remember: Be kind."). Các dòng khác là MÔ TẢ CẢNH. Mô tả nằm sau lời thoại cuối cùng là hành động "Sau thoại" (vd cả nhà cười, máy quay lùi dần).
+6. "THE END" kết thúc phần truyện. "TỪ VỰNG…" mở danh sách từ vựng, mỗi dòng "Từ – nghĩa". "Bài học:" là bài học của tập.
+7. Dòng dạng "Tên: …" mà Tên không có trong danh sách → cảnh báo "Người nói lạ", hỏi người dùng thêm nhân vật hay coi là mô tả.
+
+CHUYỂN THÀNH BẢNG STT | Cảnh | Thoại:
+- STT = số cảnh 3 chữ số dạng chữ ("001"). Cột Cảnh = "[Hồi n – Tên hồi] Cảnh NNN – Tiêu đề [TAG]" + xuống dòng + mô tả (+ "Sau thoại: …" nếu có). Cột Thoại = các dòng "Tên: lời thoại" nguyên văn, đúng thứ tự.
+- Cảnh nhiều người nói mà ước tính dài hơn MAX_CLIP_SECONDS → đề xuất tách theo người nói thành 049a, 049b… (máy quay vào người nói của từng phần; "Sau thoại" thuộc phần cuối). Người dùng bấm duyệt. Cảnh một người nói mà quá dài → chỉ cảnh báo.
+- Lưu kèm các cột phụ: Hồi, Tiêu đề, Tag, Người nói, Thời lượng ước tính.
+
+TAG ĐIỀU KHIỂN CÁCH DIỄN:
+- [HÀI HƯỚC]: diễn tinh nghịch, biểu cảm phóng đại, nhịp hài; khung hình rộng hơn để thấy hành động; cho phép hiệu ứng âm thanh vui nhẹ (vẫn không có nhạc nền).
+- [KỊCH TÍNH]: diễn chậm và căng; close-up hoặc push-in chậm vào khuôn mặt; ánh sáng tương phản hơn một chút nhưng vẫn trong preset.
+- [KHÔNG THOẠI]: không ai nói. Khối DIALOGUE = "No one speaks." + SOUND EFFECTS lấy từ mô tả (vd "Tiếng vải xé vang lên" → "a loud, long fabric ripping sound"); cho phép phản ứng không lời (thở hắt, tiếng "oh" ngạc nhiên của đám đông). Thời lượng mặc định 6 giây, chỉnh được.
+- Tag khác: giữ trong cột Cảnh và gửi cho Gemini như gợi ý cảm xúc.
+
+BÁO CÁO SAU KHI ĐỌC:
+- Số hồi, số cảnh, số câu thoại, số cảnh không thoại, số cảnh đã tách.
+- Lỗi cấu trúc: số cảnh trùng, nhảy số, cảnh không có mô tả, người nói lạ.
+- Kiểm tra độ phủ bằng code: số câu thoại trong văn bản gốc = số câu trong bảng, từng câu khớp từng ký tự, đúng thứ tự. Hiển thị "Thoại: 50/50 nguyên văn ✓".
+- Bảng thời lượng theo hồi: mục tiêu (từ mốc mm:ss) / ước tính / chênh lệch. Thiếu thời lượng → gợi ý thêm cảnh mở bối cảnh hoặc cảnh phản ứng không thoại; người dùng tự quyết.
+- Cảnh có hơn 3 nhân vật → cảnh báo như mục A.6.
+- Gemini kiểm tra logic liên tục (CHỈ cảnh báo, không sửa thoại): vd nhân vật xuất hiện trước cảnh "bước vào", trang phục đổi mà không có cảnh thay đồ.
+- Gemini gợi ý dòng thời gian trang phục cho từng nhân vật (vd Ella: đồ đi học → Moon Fairy → áo choàng rách → Moon Moth) và các ô ảnh trang phục nên tải.
+
+TỪ VỰNG & BÀI HỌC:
+- Không biến thành lời thoại (không bịa câu nói). Xuất ra danh sách thẻ từ vựng (CSV) để chèn khi dựng, và bài học cho thẻ kết / mô tả YouTube.
+- Nút tùy chọn "Thêm cảnh từ vựng": người dùng tự gõ câu tiếng Anh nhân vật sẽ nói; sau khi lưu, câu đó bị khóa như thoại thường.
+
+Nút "Tải file mẫu": tải về một kịch bản mẫu .txt đúng định dạng trên.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)
