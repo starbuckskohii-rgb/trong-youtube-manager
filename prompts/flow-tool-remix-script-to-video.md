@@ -367,6 +367,34 @@ NGUYÊN NHÂN CẦN SỬA: không được chỉ nhận tên người nói khi t
 Sau khi sửa, nạp lại file Excel và đọc lại toàn bộ 66 dòng theo quy tắc mới.
 ````
 
+Khi giao diện bước 1 bị lệch, bị cắt, trống trơn:
+
+````
+SỬA LỖI GIAO DIỆN BƯỚC 1 "KỊCH BẢN" (ưu tiên cao). Giữ nguyên toàn bộ logic đọc thoại vừa sửa.
+
+LỖI HIỆN TẠI:
+- Khung tải file bị lệch sang trái và bị cắt mất phần bên trái (mất góc bo trái, không thấy tiêu đề/mô tả), chỉ còn 2 nút "Tự kiểm tra đọc thoại" và "Chọn file Excel".
+- Khung chỉ rộng khoảng nửa màn hình, phần còn lại trống; bên dưới không có gì.
+- Không thấy các cách nhập "Kịch bản có cấu trúc" và "Transcript thô".
+
+YÊU CẦU BỐ CỤC:
+1. Vùng nội dung chính: width 100%, max-width 1200px, căn giữa (margin: 0 auto), padding 24px hai bên (16px khi màn hình hẹp), box-sizing: border-box. Bỏ mọi margin âm, transform/translate, position absolute/fixed, width cố định bằng px hoặc 100vw đang làm khung nhập bị tràn hoặc lệch. Phần tử cha không được overflow: hidden làm cắt nội dung.
+2. Khung nhập kịch bản rộng hết vùng nội dung, có viền và bo đủ 4 góc. Bên trong:
+   - Tiêu đề "Nhập kịch bản" + một dòng mô tả ngắn; chữ đủ tương phản trên nền tối (tối thiểu 4.5:1).
+   - 3 tab: "File Excel" | "Kịch bản có cấu trúc" | "Transcript thô".
+     • File Excel: vùng kéo-thả file (viền nét đứt, cao khoảng 180px) + nút "Chọn file Excel" + link "Tải file Excel mẫu".
+     • Kịch bản có cấu trúc: ô dán văn bản lớn (cao ít nhất 320px) + nút "Tải .txt" + nút "Đọc kịch bản" + link "Tải file mẫu".
+     • Transcript thô: ô dán văn bản + nút "Tải .txt/.srt" + nút "Chuyển thành kịch bản".
+   - Nút "Tự kiểm tra đọc thoại" ở góc phải trên của khung, kiểu nút phụ nhưng chữ rõ ràng.
+3. Chưa nạp gì: dưới khung nhập hiện hướng dẫn 3 bước ngắn (Nạp kịch bản → Tải ảnh nhân vật ở bước 2 → Tạo video ở bước 3).
+4. Sau khi nạp: hiện ngay bên dưới (a) thanh báo cáo: số cảnh, số câu thoại, "Thoại: x/x nguyên văn ✓", các cảnh báo vàng; (b) bảng cảnh rộng hết vùng nội dung, cột Shot | Bối cảnh & hành động | Hội thoại | Thời lượng; chữ tự xuống dòng, không tràn ngang.
+5. Kết quả "Tự kiểm tra đọc thoại" hiện trong một hộp ngay dưới khung nhập (danh sách ĐẠT/LỖI), không bật ra ngoài màn hình.
+6. Responsive: ở chiều rộng 375px, 768px, 1280px, 1920px không có thanh cuộn ngang, không phần tử nào bị cắt; nhóm nút dùng flex-wrap để xuống hàng khi thiếu chỗ.
+7. Giữ nguyên header (logo, huy hiệu SLOW ENGLISH 3D, 4 bước, ENGINE OMNI 1.1 FLASH) và theme tối hiện tại.
+
+Sau khi sửa, rà lại CSS của bước 1 và liệt kê ngắn gọn những thuộc tính đã gây lệch/cắt.
+````
+
 ## Mẫu file Excel
 
 | STT | Cảnh | Thoại |
