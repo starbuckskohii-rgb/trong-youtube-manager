@@ -452,6 +452,30 @@ YÊU CẦU BỐ CỤC:
 Sau khi sửa, rà lại CSS của bước 1 và liệt kê ngắn gọn những thuộc tính đã gây lệch/cắt.
 ````
 
+Khi prompt gửi Omni bị chặn vì "nội dung gây hại liên quan đến trẻ vị thành niên" (vd cảnh 001: Character Bible tả thân thể, cảnh rỗng, thiếu trang phục):
+
+````
+SỬA LỖI PROMPT GỬI OMNI (đang bị chặn vì "nội dung gây hại liên quan đến trẻ vị thành niên"). Prompt cảnh 001 hiện có các lỗi sau, sửa cho MỌI cảnh:
+
+1. CHARACTER BIBLE TẢ THÂN THỂ, KHÔNG CÓ TRANG PHỤC. Bible của Ms. Rose đang có: "slender graceful build", "slender neck", "soft shoulders", "smooth limb geometry", "smooth, even texture", "full, youthful cheek contours", "small, softly defined lips", "dainty button nose", dùng markdown dài. Viết lại bible của MỌI nhân vật (kể cả người lớn) theo khuôn an toàn, văn bản thường, không markdown, tối đa khoảng 60 từ:
+   "{Tên}: {vai trò}, {adult, about N years old | student}. Hair: … Eyes: … Distinctive features: {kính, khuyên tai…}."
+   Cấm trong bible: mô tả cơ thể, cổ, vai, tay chân, kết cấu da, môi, và các từ youthful, slender, smooth, petite, dainty, delicate, curvy. Màu da được ghi ngắn (vd "light skin tone"). Nhân vật người lớn PHẢI ghi "adult" và tuổi ước lượng.
+   Bộ kiểm tra từ rủi ro của Phần 6 phải chạy cả trên Character Bible lúc tạo và lúc lưu bible, không chỉ trên phần hành động.
+
+2. CẢNH RỖNG. "SCENE CONTEXT: Cảnh 001. ACTION: Wholesome animation scene.." không có nội dung. Bắt buộc có SETTING (từ Location Bible), ACTION và CAMERA viết từ mô tả cảnh trong kịch bản. Gemini không viết được thì KHÔNG gửi Omni, báo lỗi cho người dùng. Không dùng câu chung chung để lấp chỗ.
+
+3. THIẾU TRANG PHỤC. Mỗi nhân vật trong cảnh phải có dòng "OUTFIT IN THIS SHOT: …" (Phần 5). Thiếu outfit thì không gửi.
+
+4. STYLE CHƯA DÙNG BẢN AN TOÀN. Vẫn còn "soft skin shading", "Realistic fabric textures". Dùng STYLE BIBLE BẢN AN TOÀN ở Phần 6.
+
+5. THOẠI DỄ BỊ HIỂU SAI KHI THIẾU BỐI CẢNH (vd "one girl will become our Halloween Queen" nghe như cuộc thi sắc đẹp của bé gái). Không sửa thoại, nhưng ACTION phải nêu rõ bối cảnh lành mạnh (vd "a school Halloween costume contest; the crown is the prize for the most creative costume").
+
+6. Prompt gửi đi là văn bản thường, không markdown (**, *, #, gạch đầu dòng lồng nhau).
+
+Thứ tự khối cố định: VISUAL STYLE → SETTING → CHARACTERS (bible + OUTFIT IN THIS SHOT) → ACTION → CAMERA → DIALOGUE → AUDIO → RULES.
+Thêm nút "Xem prompt gửi đi" để người dùng đọc nguyên văn prompt trước khi tạo video.
+````
+
 ## Mẫu file Excel
 
 | STT | Cảnh | Thoại |
