@@ -7,6 +7,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
 4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella), rồi **Phần 4b** (quy tắc đọc bổ sung).
 5. Dán **Phần 5: Tự đồng bộ trang phục** để ảnh tải lên mặc đồ khác kịch bản vẫn ra đúng trang phục.
+6. Dán **Phần 6: Lớp an toàn chính sách** để giảm số clip bị Google chặn và tự thử lại khi bị chặn.
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
 
@@ -307,6 +308,42 @@ Nâng cấp: TỰ ĐỘNG ĐỒNG BỘ TRANG PHỤC khi ảnh nhân vật tải 
 
 === 6. CHỌN CHUẨN CHO TỪNG OUTFIT ===
 - Mỗi outfit có công tắc "Chuẩn theo": Kịch bản (mặc định) / Ảnh. Chọn "Ảnh" thì mô tả outfit được viết lại theo quần áo trong ảnh, bỏ cảnh báo ⚠, và tool không tạo ảnh mới cho outfit đó.
+````
+
+## Phần 6: Lớp an toàn chính sách trước khi tạo video
+
+````
+THÊM "LỚP AN TOÀN CHÍNH SÁCH" TRƯỚC KHI GỌI OMNI. Tuyệt đối không sửa lời thoại.
+
+Bối cảnh: Gemini viết prompt và bộ lọc an toàn của model video là hai hệ thống riêng. Bộ lọc kiểm tra cả prompt, ẢNH THAM CHIẾU và VIDEO ĐẦU RA, nên prompt do Gemini viết vẫn có thể bị chặn. Có nhân vật trẻ em thì bộ lọc chặt hơn nhiều.
+
+1. KIỂM TRA TỪ NGỮ BẰNG CODE (trước khi gửi), chỉ sửa trong PHẦN HÌNH ẢNH:
+- Mô tả da, cơ thể, trang phục ôm khi cảnh có nhân vật trẻ em (smooth skin, bare skin, body, figure, proportions, subsurface, fitted, bodice, tight, tights, legs, slim, curves) → bỏ, hoặc thay bằng mô tả trang phục chung (vd "costume dress", "striped knee socks"). Mô tả màu da (vd "light olive skin tone") thì giữ.
+- Bạo lực, nguy hiểm (blood, wound, knife, stab, attack, hit, injured, fall hard, scissors cutting near a person) → diễn đạt nhẹ (vd "carefully trims the fabric hem on the table", "stumbles but is fine").
+- Chất lỏng đỏ dính trên quần áo (red juice, red liquid) → "a large pink fruit-punch stain" để không giống máu.
+- Kinh dị (scary, horror, creepy, haunted, skull, zombie, demon, blood-red) → "cozy, friendly Halloween decorations: smiling pumpkins, paper bats, soft purple and orange lights".
+- Bắt nạt, cảm xúc quá mạnh ở trẻ em (bully, hate, humiliate, revenge, crying hysterically) → "feels hurt", "tears up", "looks jealous".
+- Tên hãng, studio, người thật (Pixar, Disney, DreamWorks, Ghibli, tên người nổi tiếng) → bỏ, dùng "high-end 3D animated feature-film look".
+- Từ gợi hiện thực (photorealistic, realistic skin, real child, live-action) → bỏ.
+- Từ rủi ro nằm trong LỜI THOẠI: KHÔNG sửa, chỉ tô vàng "Thoại có từ dễ bị chặn: …" để người dùng tự quyết.
+
+2. VIẾT LẠI AN TOÀN BẰNG GEMINI, chỉ cho phần hình ảnh: giữ nguyên nội dung cảnh; đặt trong khung "wholesome, family-friendly animated story"; tả xung đột nhẹ nhàng; không nhấn vào thân thể nhân vật; không thêm hay bớt nhân vật.
+
+3. STYLE BIBLE BẢN AN TOÀN (dùng khi cảnh có nhân vật trẻ em), thay đoạn VISUAL STYLE cũ bằng:
+VISUAL STYLE: Wholesome, family-friendly 3D animated feature-film look. Stylized cartoon characters with large expressive eyes and soft rounded shapes, soft matte stylized shading, detailed hair, cozy fabric textures. Clean, richly detailed everyday environments. Bright, warm colors, soft light, gentle depth of field. Eye-level camera, static or slow push-in, 16:9 frame. Expressive, natural acting with precise lip-sync. Not photorealistic, not live-action. Clean image: no text, no subtitles, no captions, no logos, no watermark.
+
+4. KHI BỊ CHẶN:
+- Lưu nguyên văn thông báo lỗi. Phân loại: prompt bị chặn / ảnh tham chiếu bị chặn / video đầu ra bị chặn / lỗi "prominent people" / không rõ.
+- Tự thử lại theo bậc, dừng ở bậc đầu tiên thành công:
+  (a) gửi lại y nguyên 1 lần (bộ lọc video đầu ra có tính ngẫu nhiên);
+  (b) gửi bản đã viết lại an toàn;
+  (c) bỏ ảnh tham chiếu, chỉ dùng mô tả chữ, để biết lỗi có phải do ảnh không;
+  (d) dừng, tô đỏ "Cần sửa tay" kèm chẩn đoán.
+- Ghi lại bậc nào thành công cho từng dòng.
+
+5. NÚT "KIỂM TRA ẢNH NHÂN VẬT": với mỗi nhân vật, tạo 1 clip thử 4 giây (nhân vật đứng vẫy tay, không thoại, có gắn ảnh tham chiếu). Báo ĐẠT / BỊ CHẶN cho từng nhân vật trước khi chạy hàng loạt. Hỏi xác nhận vì tốn credit.
+
+6. BÁO CÁO: số clip bị chặn theo từng loại lỗi, những từ hoặc ảnh hay gây chặn nhất.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)

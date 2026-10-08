@@ -8,13 +8,13 @@ Dùng trong Flow, ở phần tạo ảnh. Ghép **KHỐI STYLE CHUNG** với pro
 ## Khối style chung (dán đầu mọi prompt nhận diện)
 
 ```
-Character turnaround sheet in exactly the same art style as the reference image: high-end 3D animated feature-film look, soft rounded stylized forms, smooth skin with subtle subsurface scattering and soft rosy cheeks, detailed strand-based hair, realistic fabric textures (knit, cotton, tartan, felt). Three full-body views of the SAME character side by side on a pure white seamless background, evenly spaced and at the same scale: front view, side profile facing right, back view. Neutral relaxed standing pose, arms slightly away from the body, empty hands. Soft even studio lighting with soft contact shadows. No text, no lettering, no labels, no watermark.
+Character turnaround sheet in exactly the same art style as the reference image: high-end 3D animated feature-film look, wholesome family-friendly look, soft rounded stylized forms, soft matte stylized shading and soft rosy cheeks, detailed strand-based hair, realistic fabric textures (knit, cotton, tartan, felt). Three full-body views of the SAME character side by side on a pure white seamless background, evenly spaced and at the same scale: front view, side profile facing right, back view. Neutral relaxed standing pose, arms slightly away from the body, empty hands. Soft even studio lighting with soft contact shadows. No text, no lettering, no labels, no watermark.
 ```
 
 ## Ivy – ảnh nhận diện (đồng phục, cảnh 002–006)
 
 ```
-Character: Ivy, Ella's classmate. Same age, same height and same body proportions as the girl in the reference image (large head, big eyes, short limbs), but clearly a different girl. Do not copy the reference girl's face, hair color, braids or freckles.
+Character: Ivy, Ella's classmate. Same age and same height as the girl in the reference image, drawn in the same cartoon style (large head, big eyes), but clearly a different girl. Do not copy the reference girl's face, hair color, braids or freckles.
 Face: slightly narrower heart-shaped face with a small pointed chin, dark brown almond-shaped eyes with long lashes, thin arched eyebrows, light olive skin, no freckles, small neat nose.
 Expression: confident, slightly proud closed-mouth smile, one eyebrow a little raised.
 Hair: sleek straight jet-black hair with blunt straight bangs, pulled into a high ponytail tied with a purple satin ribbon bow; a small hand-made purple felt star clip above her left ear.
@@ -27,8 +27,8 @@ Personal touch: a lavender backpack decorated with small hand-stitched silver st
 Gắn ảnh nhận diện Ivy vừa chọn, không gắn ảnh Ella.
 
 ```
-Use the attached Ivy turnaround as the only character reference. Keep her face, skin, eyes, hair (high jet-black ponytail, straight bangs, purple ribbon bow) and body proportions exactly the same. Change only the clothing.
-Halloween costume: an elaborate purple-and-black witch dress: fitted dark purple velvet bodice with tiny silver star embroidery, short puffed sleeves, layered black tulle skirt with a jagged hem at knee length; purple-and-black striped tights; black ankle boots with small silver buckles.
+Use the attached Ivy turnaround as the only character reference. Keep her face, skin tone, eyes, hair (high jet-black ponytail, straight bangs, purple ribbon bow) and cartoon style exactly the same. Change only the clothing.
+Halloween costume: a cute purple-and-black witch costume dress with short puffed sleeves and tiny silver star embroidery, a knee-length layered black tulle skirt with a jagged hem, purple-and-black striped knee socks, black ankle boots with small silver buckles.
 On her head: a hand-made tall purple felt witch hat with a wide floppy brim, a black band, hand-sewn silver stars with visible stitches, and a thin purple ribbon chin strap tied under her chin.
 Same layout: front view, side profile facing right, back view, pure white seamless background, same lighting. No text.
 ```
@@ -48,7 +48,7 @@ Dùng: 1 cho cảnh 002–033, 2 cho cảnh 034–039, 3 cho cảnh 040–056.
 ## Ms. Rose – ảnh nhận diện (đồ đi dạy, cảnh 001–003)
 
 ```
-Character: Ms. Rose, a kind school teacher in her mid-fifties. Same art style as the reference image but with adult proportions in the same stylized system: head-to-body ratio about 1:6, slim build, about one and a half times the height of the children. Do not copy any feature of the reference girl except the art style.
+Character: Ms. Rose, a kind school teacher in her mid-fifties. Same art style as the reference image, drawn as an adult: taller, about one and a half times the height of the children. Do not copy any feature of the reference girl except the art style.
 Face: warm medium-brown skin, soft round face with gentle smile lines, warm brown eyes, round thin gold-rimmed glasses, soft natural makeup.
 Hair: silver-gray hair in a neat rounded bun, a few soft curls framing the face.
 Expression: warm, gentle closed-mouth smile; kind but composed.
@@ -58,10 +58,14 @@ Outfit: dusty-rose knit cardigan over a cream blouse with a soft bow at the coll
 ## Ms. Rose – trang phục đêm hội (cảnh 045–051)
 
 ```
-Use the attached Ms. Rose turnaround as the only character reference. Keep her face, skin, glasses, silver-gray bun and body proportions exactly the same. Change only the clothing.
+Use the attached Ms. Rose turnaround as the only character reference. Keep her face, skin tone, glasses, silver-gray bun and cartoon style exactly the same. Change only the clothing.
 Halloween-night outfit: an elegant long-sleeve plum-purple velvet dress reaching the ankles, a sheer silver shawl printed with small crescent moons draped over her shoulders, the same small red rose brooch pinned on the shawl, small black low-heeled shoes.
 Same layout: front view, side profile facing right, back view, pure white seamless background, same lighting. No text.
 ```
+
+## Vì sao đã bỏ một số từ
+
+Bộ lọc an toàn của Google chặt hơn nhiều khi có nhân vật trẻ em. Các từ mô tả da và cơ thể (smooth skin, subsurface scattering, body proportions), trang phục ôm (fitted bodice, tights) có thể làm prompt hoặc video bị chặn, nên đã được thay bằng mô tả trang phục chung.
 
 ## Mẹo khi dùng
 
