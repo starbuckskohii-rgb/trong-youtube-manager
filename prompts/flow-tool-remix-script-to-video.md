@@ -4,6 +4,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 
 1. Dán **Prompt chính (Phần 1)**, chờ tool dựng xong.
 2. Dán **Phần 2: Preset phong cách "Slow English 3D"** ở tin nhắn tiếp theo. Phần 2 ghi đè một số mặc định của Phần 1 (style, tốc độ nói, trường JSON).
+3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
 
@@ -141,6 +142,37 @@ VISUAL STYLE: High-end 3D animated feature-film look. Stylized characters with l
 === 6. HOOK & GIỚI THIỆU NHÂN VẬT (TÙY CHỌN) ===
 - Nút "Gợi ý hook": Gemini chọn 3–5 dòng kịch tính nhất (theo STT) làm đoạn "Later in this episode..." ở đầu video. Hook dùng lại clip đã tạo (không tốn thêm credit) và được đưa lên đầu danh sách dựng.
 - Nút "Tạo clip giới thiệu nhân vật" (tốn credit, hỏi xác nhận): mỗi nhân vật 1 clip 4 giây không thoại. Nhân vật đứng trong bối cảnh quen thuộc, quay về phía máy quay, mỉm cười, vẫy tay nhẹ; chừa khoảng trống một bên khung hình để chèn tên khi dựng.
+````
+
+## Phần 3: Nhập transcript / kịch bản thô → kịch bản video
+
+Dùng khi chỉ có kịch bản dạng thô, ví dụ transcript YouTube có mốc thời gian, không có tên người nói và không có mô tả cảnh.
+
+````
+Thêm chế độ "NHẬP KỊCH BẢN THÔ" đứng trước Bước 1. Tool biến văn bản thô thành bảng STT | Cảnh | Thoại rồi nạp vào quy trình hiện có.
+
+=== ĐẦU VÀO ===
+- Dán văn bản hoặc tải file .txt / .srt. Nhận các dạng: "[00:01:23] câu nói", SRT, văn bản trơn, "Tên: câu nói".
+- Bỏ mốc thời gian nhưng lưu lại cho từng câu (cột "Mốc gốc" để người dùng nghe lại bản gốc). Dấu ">>" là gợi ý ĐỔI NGƯỜI NÓI.
+
+=== GIAI ĐOẠN NHÁP (thoại CHƯA khóa, mọi thay đổi phải hiện rõ) ===
+1. Ghép câu: nối các dòng bị cắt ngang theo thời gian thành câu hoàn chỉnh.
+2. Phát hiện đoạn HOOK: đoạn mở đầu lặp lại nguyên văn một đoạn ở giữa truyện thì đánh dấu HOOK, KHÔNG tạo dòng mới. Ghi lại hook dùng lại clip của những STT nào.
+3. Phát hiện lời chào kênh ("Welcome to ..."): đánh dấu INTRO, thay tên kênh cũ bằng tên kênh trong phần Cài đặt.
+4. Sửa lỗi nhận dạng giọng nói rõ ràng (vd "h" → "hmm", tên riêng nghe nhầm). Mỗi chỗ sửa hiện dạng so sánh (chữ cũ gạch đỏ, chữ mới xanh) và phải được người dùng duyệt. Không bao giờ sửa ngầm.
+5. Đoán người nói cho từng câu theo ngữ cảnh, kèm mức tự tin (cao/thấp). Câu tự tin thấp tô vàng để người dùng chọn lại. Tên chưa rõ thì đặt tên tạm và ghi chú.
+6. Chia bối cảnh (LOC_xx) và viết cột Cảnh bằng tiếng Việt: địa điểm, ai có mặt, hành động, cảm xúc, trạng thái trang phục.
+7. Chia dòng: mỗi dòng ≤ MAX_CLIP_SECONDS theo công thức thời lượng hiện có; chỉ cắt ở ranh giới câu; mỗi dòng một người nói. Riêng câu cảm thán rất ngắn (≤ 2 từ, vd "Yes.", "Wow.", "Huh?") được ghép với câu liền kề của người khác thành clip 2 người.
+8. Dòng thời gian trang phục: phát hiện khi trang phục đổi hoặc biến đổi theo cốt truyện (vd váy sạch → bị bẩn → đã sửa) và gán cho từng dòng.
+
+=== KIỂM TRA ĐỘ PHỦ (bắt buộc, chạy bằng code) ===
+- Chuẩn hóa văn bản gốc (bỏ mốc thời gian, ">>", dấu câu, chữ hoa) và trừ đoạn HOOK. Ghép toàn bộ thoại trong bảng (bỏ tiền tố "Tên:") và chuẩn hóa tương tự.
+- So sánh từng từ. Mọi khác biệt phải nằm trong danh sách sửa đã duyệt ở bước 4. Thiếu từ, thừa từ hoặc đảo thứ tự → báo lỗi đỏ, không cho chốt.
+- Hiển thị: "Độ phủ thoại: 492/492 từ ✓, 4 chỗ sửa đã duyệt".
+
+=== CHỐT ===
+- Nút "Chốt kịch bản": xuất Excel (sheet Kich ban: STT | Cảnh | Thoại; kèm các sheet Ghi chu, Nhan vat, Boi canh, Hook) và nạp thẳng vào Bước 1.
+- Từ lúc chốt, QUY TẮC TỐI THƯỢNG về lời thoại áp dụng: thoại bị khóa 100%.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)
