@@ -6,6 +6,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 2. Dán **Phần 2: Preset phong cách "Slow English 3D"** ở tin nhắn tiếp theo. Phần 2 ghi đè một số mặc định của Phần 1 (style, tốc độ nói, trường JSON).
 3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
 4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella).
+5. Dán **Phần 5: Tự đồng bộ trang phục** để ảnh tải lên mặc đồ khác kịch bản vẫn ra đúng trang phục.
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
 
@@ -254,6 +255,42 @@ TỪ VỰNG & BÀI HỌC:
 - Nút tùy chọn "Thêm cảnh từ vựng": người dùng tự gõ câu tiếng Anh nhân vật sẽ nói; sau khi lưu, câu đó bị khóa như thoại thường.
 
 Nút "Tải file mẫu": tải về một kịch bản mẫu .txt đúng định dạng trên.
+````
+
+## Phần 5: Tự đồng bộ trang phục khi ảnh tải lên khác kịch bản
+
+````
+Nâng cấp: TỰ ĐỘNG ĐỒNG BỘ TRANG PHỤC khi ảnh nhân vật tải lên mặc đồ khác với kịch bản. Nguyên tắc: KỊCH BẢN LÀ CHUẨN về trang phục, ẢNH LÀ CHUẨN về khuôn mặt, tóc, dáng người. Phần này ghi đè mọi chỗ trước đó đưa trang phục vào Character Bible và câu "Characters must look exactly like their reference images".
+
+=== 1. TÁCH NHẬN DIỆN VÀ TRANG PHỤC ===
+- Character Bible chỉ mô tả nhận diện: khuôn mặt, mắt, tóc, màu da, dáng người, tuổi. KHÔNG mô tả quần áo.
+- Trang phục là danh sách riêng của từng nhân vật (Outfit Bible). Mỗi outfit có: mã, mô tả tiếng Anh cố định, các cảnh sử dụng, ảnh tham chiếu (nếu có). Danh sách outfit lấy từ dòng thời gian trang phục đọc được trong kịch bản.
+- Cảnh nào kịch bản không nói về trang phục thì dùng outfit gần nhất trước đó. Nếu chưa có outfit nào thì lấy trang phục trong ảnh tải lên làm outfit mặc định.
+
+=== 2. KIỂM TRA KHI TẢI ẢNH ===
+- Mỗi khi người dùng tải ảnh, Gemini mô tả trang phục trong ảnh và so với từng outfit kịch bản yêu cầu.
+- Hiển thị bảng "Trang phục": mỗi hàng là một outfit (vd "Ella – Moon Fairy, cảnh 014–023"), các cột: Mô tả theo kịch bản | Ảnh đang có | Trạng thái (✓ Khớp / ⚠ Khác trang phục / ✗ Chưa có ảnh).
+- Dòng ⚠ ghi rõ khác ở đâu (vd "ảnh mặc váy hồng, kịch bản cần váy xanh đậm + áo choàng bạc") và liệt kê các cảnh bị ảnh hưởng.
+
+=== 3. TỰ SỬA BẰNG ẢNH TRANG PHỤC MỚI ===
+- Nút "Tạo ảnh trang phục đúng kịch bản" cho từng dòng ⚠/✗, và nút "Sửa tất cả". Dùng model tạo/sửa ảnh của Flow, lấy ảnh nhận diện của người dùng làm gốc: GIỮ NGUYÊN khuôn mặt, tóc, màu da, dáng người, phong cách vẽ; CHỈ thay quần áo theo mô tả outfit; nền trơn; xuất 1 ảnh toàn thân chính diện + 1 ảnh góc 3/4.
+- Trang phục biến đổi theo cốt truyện (vd váy sạch → bị bẩn; áo choàng nguyên → rách → thành đôi cánh) thì tạo NỐI TIẾP: ảnh trạng thái sau được sửa từ ảnh trạng thái trước, để vẫn là đúng bộ đồ đó.
+- Người dùng xem và chọn "Duyệt" hoặc "Tạo lại". Chỉ ảnh đã duyệt mới được dùng. Ảnh gốc của người dùng không bao giờ bị ghi đè.
+- Trước khi chạy hàng loạt, hiện số ảnh sẽ tạo và hỏi xác nhận (tốn credit).
+
+=== 4. KHI TẠO VIDEO ===
+- Với mỗi nhân vật trong cảnh: gắn ảnh ĐÃ DUYỆT của đúng outfit cảnh đó, thay cho ảnh gốc.
+- Outfit chưa có ảnh duyệt: KHÔNG gắn ảnh gốc toàn thân (model sẽ chép luôn quần áo trong ảnh). Thay vào đó tự cắt ảnh chỉ lấy khuôn mặt và tóc (cắt bằng canvas theo khung mặt Gemini xác định), và hiện cảnh báo vàng "Chưa có ảnh trang phục" trên dòng đó.
+- Template prompt đổi thành:
+  CHARACTERS:
+  @{Tên}: {identity bible}. OUTFIT IN THIS SHOT: {mô tả outfit nguyên văn}.
+  Thay câu RULES cũ về ảnh tham chiếu bằng: "Match faces, hairstyles and body proportions to the reference images. Clothing must follow the OUTFIT lines exactly, even if a reference image shows different clothing."
+
+=== 5. KIỂM TRA SAU KHI TẠO ===
+- Sau mỗi clip, Gemini xem khung hình giữa clip, so trang phục từng nhân vật với outfit yêu cầu. Khớp → "Trang phục ✓". Lệch → tô cam "Sai trang phục: …" và gợi ý "Tạo lại".
+
+=== 6. CHỌN CHUẨN CHO TỪNG OUTFIT ===
+- Mỗi outfit có công tắc "Chuẩn theo": Kịch bản (mặc định) / Ảnh. Chọn "Ảnh" thì mô tả outfit được viết lại theo quần áo trong ảnh, bỏ cảnh báo ⚠, và tool không tạo ảnh mới cho outfit đó.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)
