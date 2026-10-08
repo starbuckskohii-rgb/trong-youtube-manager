@@ -1,9 +1,13 @@
 # Prompt remix tool Google Flow: Excel → Video (Gemini Omni 1.1)
 
-Dán **Prompt chính** vào ô "Bạn muốn tạo gì?" trong Trình tạo công cụ (Flow → Công cụ → Remix).
-Nếu ô nhập báo quá dài, gửi phần MỤC TIÊU + QUY TẮC + BƯỚC 1–3 trước, rồi gửi BƯỚC 4–8 + GIAO DIỆN ở tin nhắn sau.
+Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), ô "Bạn muốn tạo gì?":
 
-## Prompt chính
+1. Dán **Prompt chính (Phần 1)**, chờ tool dựng xong.
+2. Dán **Phần 2: Preset phong cách "Slow English 3D"** ở tin nhắn tiếp theo. Phần 2 ghi đè một số mặc định của Phần 1 (style, tốc độ nói, trường JSON).
+
+Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
+
+## Prompt chính (Phần 1)
 
 ````
 Remix công cụ này thành "MC ANIM STUDIO – SCRIPT TO VIDEO". Công cụ đọc kịch bản từ file Excel, tự sinh prompt cho từng cảnh và dựng video bằng model Gemini Omni 1.1. Lời thoại phải giữ nguyên 100%. Toàn bộ giao diện bằng tiếng Việt. Giữ phong cách hiện tại: nền tối, viền xanh lá, font pixel.
@@ -80,6 +84,63 @@ RULES: Only the lines above are spoken, word for word, in this order. No other s
 === GIAO DIỆN ===
 - Thanh tiến trình 4 bước trên cùng: ① Kịch bản → ② Nhân vật & bối cảnh → ③ Prompt → ④ Video.
 - Bảng cảnh là trung tâm; mỗi dòng mở rộng được để xem prompt và video.
+````
+
+## Phần 2: Preset phong cách "Slow English 3D"
+
+Phong cách tham chiếu: video hoạt hình 3D hội thoại học tiếng Anh A1–A2 (vd. https://www.youtube.com/watch?v=f3-HaMjMx7E).
+Những gì phân tích được từ 3 phút đầu video đó:
+
+- 3D chất lượng phim chiếu rạp, không viền, da mềm, tóc chi tiết, vải có chất liệu (ren, kim sa).
+- Nhân vật tuổi teen cách điệu: mắt to, mũi nhỏ, tỉ lệ đầu/thân khoảng 1:5.
+- Bối cảnh trong nhà sạch, nhiều chi tiết: lớp học, cửa hàng quần áo, hội trường trang trí bóng bay.
+- Màu tươi, bão hòa cao, ánh sáng ấm có bloom nhẹ, xóa phông khi cận.
+- Máy tĩnh, cỡ trung và cận, shot/reverse-shot khi hội thoại, mỗi shot 2–4 giây, thỉnh thoảng push-in chậm.
+- Nhân vật tự nói trên hình (lip-sync), không có người dẫn chuyện. Giọng Mỹ chậm, rõ, ngắt nghỉ giữa các câu.
+- Phụ đề trắng chữ to, hộp tím/xanh bán trong suốt, giữa đáy màn hình. Huy hiệu "A2 LEVEL" góc dưới phải.
+- Nhạc acoustic-pop vui, âm lượng thấp. Mở đầu bằng hook "Later in this episode", rồi giới thiệu nhân vật, title card "Earlier that day", sau đó kể theo trình tự.
+
+````
+Nâng cấp tool: chuyên sản xuất phim hoạt hình 3D phong cách "SLOW ENGLISH 3D" (truyện hội thoại học tiếng Anh A1–A2, nhân vật tuổi teen và người lớn, đời sống thường ngày: trường học, gia đình, cửa hàng, tiệc). Giữ nguyên mọi quy tắc về lời thoại ở phần trước. Phần này ghi đè các mặc định cũ về phong cách, tốc độ nói và trường JSON.
+
+=== 1. PRESET PHONG CÁCH "SLOW ENGLISH 3D" (mặc định, khóa) ===
+- Thay Style Bible mặc định bằng đoạn sau và dán NGUYÊN VĂN vào mọi prompt video:
+
+VISUAL STYLE: High-end 3D animated feature-film look. Stylized characters with large expressive eyes, small noses, soft rounded faces and a head-to-body ratio of about 1:5; detailed strand-based hair; soft skin shading with subtle subsurface scattering; realistic fabric textures such as cotton, denim, lace and sequins. No outlines, no toon shading, not anime, not 2D, not photorealistic. Clean, richly detailed everyday environments with tidy, believable props. Bright, warm, highly saturated colors; soft key light with gentle bloom on highlights; shallow depth of field with a softly blurred background. Eye-level camera, static or very slow push-in, 16:9 frame. Smooth, expressive acting with natural hand gestures, head tilts, blinking and subtle idle movement; precise lip-sync. Clean image: no text, no subtitles, no captions, no logos, no watermark.
+
+- Preset hiển thị ở header dạng huy hiệu "SLOW ENGLISH 3D". Chỉ sửa được khi bấm "Mở khóa preset".
+
+=== 2. NGÔN NGỮ MÁY QUAY (Gemini bắt buộc tuân theo khi viết trường camera) ===
+1. Clip đầu tiên ở một bối cảnh mới: establishing shot (wide hoặc medium-wide), thấy rõ không gian và mọi nhân vật có mặt.
+2. Mỗi câu thoại: máy quay vào NGƯỜI NÓI, medium close-up, ngang tầm mắt. Có người nghe thì quay over-the-shoulder từ sau vai người nghe (shot/reverse-shot).
+3. Luật 180°: trong cùng một bối cảnh, mỗi nhân vật luôn đứng cùng một phía khung hình. Gemini trả thêm trường "screen_positions" (vd {"Maya":"left","Sara":"right"}); code lưu theo bối cảnh và gửi lại cho các cảnh sau để giữ nguyên.
+4. Cảm xúc mạnh (bất ngờ, xấu hổ, vui, giận): close-up khuôn mặt.
+5. Cảnh không thoại: reaction close-up hoặc shot hành động.
+6. Chỉ dùng máy tĩnh hoặc push-in chậm. Không lia nhanh, không rung tay, không góc nghiêng, không zoom gắt.
+7. Mỗi clip là đúng một shot, không cắt cảnh bên trong clip.
+- JSON Gemini trả về thêm các trường: "shot_type", "screen_positions", "outfits" (trang phục từng nhân vật trong cảnh).
+
+=== 3. GIỌNG NÓI ===
+- Câu dẫn của khối DIALOGUE trong preset này: "spoken slowly and clearly in natural American English, about 100 words per minute, with a short pause between sentences, warm friendly tone, precise lip-sync".
+- Ước tính thời lượng mới: số từ ÷ 1,7 từ/giây + 0,5 giây cho mỗi lần ngắt câu + 1,5 giây đệm.
+- Mỗi nhân vật có một mô tả giọng cố định bằng tiếng Anh (tool gợi ý theo tuổi và giới tính, vd "teenage girl, bright and gentle American voice"). Khóa lại và dán nguyên văn vào mọi clip nhân vật đó nói.
+- Mọi prompt luôn có "No background music." Nhạc nền được thêm lúc dựng để không bị lệch giữa các clip.
+
+=== 4. NHÂN VẬT, TRANG PHỤC, BỐI CẢNH ĐÚNG STYLE ===
+- Character Bible viết theo khuôn: face, eyes, hair, skin tone, stylized body proportions (~1:5), base outfit. Không mô tả kiểu ảnh thật.
+- Trang phục theo phân đoạn: mỗi nhân vật có danh sách trang phục (vd Outfit A – đi học, Outfit B – váy dạ hội). Gemini đọc toàn bộ kịch bản và đề xuất cảnh nào đổi trang phục; người dùng duyệt. Mỗi cảnh gán outfit cho từng nhân vật; prompt dán nguyên văn mô tả outfit. Mặc định giữ nguyên trang phục trong cùng bối cảnh và cùng ngày.
+- Nút "Chuyển về style" cho từng nhân vật: dùng model tạo ảnh của Flow vẽ lại nhân vật đúng preset trên nền trơn (1 ảnh chính diện toàn thân + 1 ảnh 3/4 bán thân), giữ nguyên đặc điểm nhận dạng. Người dùng chọn ảnh ưng ý làm ảnh tham chiếu. Hỏi xác nhận trước vì tốn credit.
+- Nút "Tạo ảnh bối cảnh" cho từng bối cảnh: tạo 1 ảnh tham chiếu không có người, theo Location Bible + preset. Ảnh này được gắn làm ingredient cho MỌI clip ở bối cảnh đó để nền đồng nhất. Mỗi clip gắn tối đa: ảnh các nhân vật trong cảnh (≤3) + 1 ảnh bối cảnh.
+
+=== 5. XUẤT CHO HẬU KỲ ===
+- Phụ đề .srt và .ass: dùng lời thoại nguyên văn. Thời gian tính theo thời lượng THỰC của từng clip (đọc metadata video sau khi tạo; chưa có video thì dùng ước tính), nối theo thứ tự STT. Một clip nhiều câu thì chia thời gian theo số từ; mỗi câu bắt đầu sau 0,3 giây.
+- File .ass có sẵn kiểu chữ: trắng, sans-serif đậm, cỡ lớn, hộp nền tím bán trong suốt, căn giữa đáy khung, tối đa 2 dòng mỗi lần hiện.
+- Danh sách dựng (CSV): thứ tự, tên file clip, thời lượng, mốc bắt đầu trên timeline, loại (hook / giới thiệu nhân vật / title card / cảnh chính).
+- Hiển thị "Ghi chú hậu kỳ" cố định trong tool: thêm nhạc nền acoustic-pop vui nhẹ ở âm lượng thấp; huy hiệu "A2 LEVEL" góc dưới phải; title card "Earlier that day..." và tên nhân vật làm trong phần mềm dựng, KHÔNG tạo bằng AI (AI vẽ chữ hay bị lỗi).
+
+=== 6. HOOK & GIỚI THIỆU NHÂN VẬT (TÙY CHỌN) ===
+- Nút "Gợi ý hook": Gemini chọn 3–5 dòng kịch tính nhất (theo STT) làm đoạn "Later in this episode..." ở đầu video. Hook dùng lại clip đã tạo (không tốn thêm credit) và được đưa lên đầu danh sách dựng.
+- Nút "Tạo clip giới thiệu nhân vật" (tốn credit, hỏi xác nhận): mỗi nhân vật 1 clip 4 giây không thoại. Nhân vật đứng trong bối cảnh quen thuộc, quay về phía máy quay, mỉm cười, vẫy tay nhẹ; chừa khoảng trống một bên khung hình để chèn tên khi dựng.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)
