@@ -7,7 +7,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
 4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella), rồi **Phần 4b** (quy tắc đọc bổ sung).
 5. Dán **Phần 5: Tự đồng bộ trang phục** để ảnh tải lên mặc đồ khác kịch bản vẫn ra đúng trang phục.
-6. Dán **Phần 6: Lớp an toàn chính sách** để giảm số clip bị Google chặn và tự thử lại khi bị chặn.
+6. Dán **Phần 6: Lớp an toàn chính sách** để giảm số clip bị Google chặn và tự thử lại khi bị chặn, rồi **Phần 6b** nếu dàn nhân vật có trẻ em.
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
 
@@ -344,6 +344,26 @@ VISUAL STYLE: Wholesome, family-friendly 3D animated feature-film look. Stylized
 5. NÚT "KIỂM TRA ẢNH NHÂN VẬT": với mỗi nhân vật, tạo 1 clip thử 4 giây (nhân vật đứng vẫy tay, không thoại, có gắn ảnh tham chiếu). Báo ĐẠT / BỊ CHẶN cho từng nhân vật trước khi chạy hàng loạt. Hỏi xác nhận vì tốn credit.
 
 6. BÁO CÁO: số clip bị chặn theo từng loại lỗi, những từ hoặc ảnh hay gây chặn nhất.
+````
+
+## Phần 6b: Quy tắc dàn cảnh khi có nhân vật trẻ em
+
+Dùng khi Flow báo: "Câu lệnh này có thể vi phạm chính sách của chúng tôi về việc tạo nội dung gây hại liên quan đến trẻ vị thành niên".
+
+````
+BỔ SUNG LỚP AN TOÀN: QUY TẮC DÀN CẢNH KHI CÓ NHÂN VẬT TRẺ EM. Lỗi đang gặp: "Câu lệnh này có thể vi phạm chính sách của chúng tôi về việc tạo nội dung gây hại liên quan đến trẻ vị thành niên". Không sửa lời thoại.
+
+Khi Gemini viết phần hình ảnh cho cảnh có nhân vật trẻ em, áp dụng các quy tắc sau. Cảnh vẫn giữ đúng ý kịch bản:
+1. Thử đồ, thay đồ: không tả cảnh mặc vào, cởi ra, phòng thử đồ. Thay bằng: nhân vật cầm bộ váy áp trước người ngắm gương, hoặc đã mặc sẵn bộ đồ và xoay nhẹ.
+2. Đồ bị hỏng: không tả quần áo đang mặc trên người bị rách, bị cắt, bị bẩn. Chỉ tả hỏng ở PHỤ KIỆN tách rời hoặc vật đặt trên bàn (vd "the long silver cape's trailing hem, lying on the floor, gets a long tear"; "the torn cape pieces lie on the table"). Không dùng các cụm "dress tears", "ripped dress", "torn clothes".
+3. Người lớn và trẻ em: người lớn không chạm, chỉnh, kẹp, cài đồ trên người trẻ em. Người lớn đưa đồ, chỉ dẫn, đứng cạnh mỉm cười; trẻ em tự làm (vd "Ella clips the silver wings onto her own sleeves while Mom holds the clips and smiles"). Ôm: "a brief, warm side hug", hoặc thay bằng đặt tay lên vai.
+4. Buồn, khóc: "eyes glisten", "looks sad", "a single tear"; không cận cảnh khóc nức nở, không run rẩy sợ hãi.
+5. Xung đột giữa trẻ em: tả hành động trung tính, không nhấn bạo lực (vd "Ivy's shoe rests on the end of the cape on the floor" thay cho "deliberately stomps").
+6. Không có cảnh trẻ em trong phòng tắm, phòng ngủ, đồ ngủ, đồ bơi; không có kéo, dao gần trẻ em.
+7. Gọi nhân vật bằng tên; không thêm từ nhấn vào tuổi hay thân thể (little, tiny, body, legs, skin).
+8. Tiêu đề cảnh và tên hồi chỉ để hiển thị trong tool; KHÔNG đưa vào prompt gửi Omni (vd tiêu đề "The Dress Tears").
+9. Lời thoại có từ nhạy cảm (vd "your dress") vẫn giữ nguyên. Nếu clip có câu thoại đó bị chặn nhiều lần, đánh dấu để người dùng quyết định.
+10. Khi bị chặn với lỗi về trẻ vị thành niên: thử lại theo các bậc ở Phần 6, thêm bậc (b2) ngay sau (b): viết lại phần hình ảnh theo đúng các quy tắc trên. Ghi lại cảnh nào qua ở bậc nào.
 ````
 
 ## Prompt sửa lỗi (dùng sau khi tool đã dựng xong)
