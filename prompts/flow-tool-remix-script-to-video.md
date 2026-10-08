@@ -5,7 +5,7 @@ Thứ tự dùng trong Trình tạo công cụ (Flow → Công cụ → Remix), 
 1. Dán **Prompt chính (Phần 1)**, chờ tool dựng xong.
 2. Dán **Phần 2: Preset phong cách "Slow English 3D"** ở tin nhắn tiếp theo. Phần 2 ghi đè một số mặc định của Phần 1 (style, tốc độ nói, trường JSON).
 3. Dán **Phần 3: Nhập transcript / kịch bản thô** nếu muốn tool tự chuyển transcript thành bảng STT | Cảnh | Thoại.
-4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella).
+4. Dán **Phần 4: Thẻ nhân vật dùng ảnh của bạn + Nhập kịch bản có cấu trúc** (mẫu Ella), rồi **Phần 4b** (quy tắc đọc bổ sung).
 5. Dán **Phần 5: Tự đồng bộ trang phục** để ảnh tải lên mặc đồ khác kịch bản vẫn ra đúng trang phục.
 
 Nếu ô nhập báo quá dài, gửi từ đầu đến hết BƯỚC 3 trước, rồi gửi phần còn lại ở tin nhắn sau.
@@ -255,6 +255,22 @@ TỪ VỰNG & BÀI HỌC:
 - Nút tùy chọn "Thêm cảnh từ vựng": người dùng tự gõ câu tiếng Anh nhân vật sẽ nói; sau khi lưu, câu đó bị khóa như thoại thường.
 
 Nút "Tải file mẫu": tải về một kịch bản mẫu .txt đúng định dạng trên.
+````
+
+## Phần 4b: Bổ sung quy tắc đọc kịch bản có cấu trúc
+
+Rút ra khi chạy thử bản v2 (`samples/ella-halloween-moon-moth-v2.txt`, 56 cảnh, 61 câu thoại): mô tả xen giữa các câu thoại, giọng nói không có lời, mô tả lệch thoại, hồi tưởng, tag [HOOK], cùng địa điểm khác thời điểm.
+
+````
+Bổ sung cho phần NHẬP KỊCH BẢN CÓ CẤU TRÚC (giữ nguyên mọi quy tắc cũ):
+1. MÔ TẢ XEN GIỮA THOẠI: dòng mô tả nằm giữa hai câu thoại là hành động xảy ra giữa hai câu đó. Lưu đúng thứ tự (trước thoại / giữa thoại / sau thoại). Khi tách cảnh theo người nói, mô tả xen giữa thuộc phần của câu thoại NGAY SAU nó ("Ngay trước câu thoại: …"); mô tả sau câu cuối thuộc phần cuối ("Sau thoại: …"). Mô tả mở đầu cảnh được lặp lại ở mọi phần để giữ bối cảnh. Khi không tách, ghi vào cột Cảnh dạng "Giữa thoại: …".
+2. GIỌNG NGOÀI KHUNG HÌNH: hỗ trợ dòng thoại "Tên (ngoài khung hình): câu nói". Người nói không xuất hiện trong khung, không gắn ảnh tham chiếu của họ; prompt ghi: @Tên is heard off-screen saying: "…". Thoại vẫn khóa nguyên văn.
+3. CÓ TIẾNG NÓI NHƯNG KHÔNG CÓ LỜI (vd mô tả "Giọng Ms. Rose vang lên, thông báo…" mà không có dòng thoại): cảnh báo vàng "Có tiếng nói nhưng không có lời thoại". Gợi ý thêm dòng "(ngoài khung hình)" hoặc đổi thành âm thanh không rõ lời. KHÔNG BAO GIỜ tự bịa lời.
+4. MÔ TẢ LỆCH THOẠI: Gemini so mô tả với thoại cùng cảnh; mâu thuẫn (vd mô tả "giải trang phục sáng tạo nhất" nhưng thoại "Halloween Queen") → cảnh báo và gợi ý sửa MÔ TẢ. Không sửa thoại.
+5. HỒI TƯỞNG trong mô tả (vd "nhớ lại cảnh…"): không vẽ hồi tưởng trong cùng clip; diễn bằng biểu cảm. Trong danh sách dựng, gợi ý chèn 1–2 giây clip cũ của cảnh được nhớ lại (dùng lại, không tốn credit).
+6. TAG [HOOK]: cảnh mở màn gây tò mò; vẫn tạo video như cảnh thường, máy quay và ánh sáng ấn tượng hơn, nhịp nhanh hơn một chút. Khác với nút "Gợi ý hook" (dùng lại clip cũ).
+7. CÙNG ĐỊA ĐIỂM, KHÁC THỜI ĐIỂM (vd hội trường ban ngày và đêm hội): tạo hai bối cảnh riêng (LOC_HALL_DAY, LOC_HALL_NIGHT), mỗi bối cảnh một ảnh tham chiếu riêng.
+8. Clip ước tính dưới 4 giây được nâng lên tối thiểu 4 giây.
 ````
 
 ## Phần 5: Tự đồng bộ trang phục khi ảnh tải lên khác kịch bản
